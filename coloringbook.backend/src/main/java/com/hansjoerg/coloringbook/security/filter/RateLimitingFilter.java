@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.hansjoerg.coloringbook.config.AppProperties;
-import com.hansjoerg.coloringbook.payload.ApiResponse;
+import com.hansjoerg.coloringbook.payload.ApiResponseDTO;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
-import io.github.bucket4j.Refill;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -98,7 +97,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     private void sendTooManyRequestsResponse(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        String errorJson = objectMapper.writeValueAsString(new ApiResponse(false, message));
+        String errorJson = objectMapper.writeValueAsString(new ApiResponseDTO(false, message));
         response.getWriter().write(errorJson);
         response.getWriter().flush();
     }

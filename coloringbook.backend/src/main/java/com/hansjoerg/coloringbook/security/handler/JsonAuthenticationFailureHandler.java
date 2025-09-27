@@ -1,7 +1,7 @@
 package com.hansjoerg.coloringbook.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansjoerg.coloringbook.payload.ApiResponse;
+import com.hansjoerg.coloringbook.payload.ApiResponseDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ public class JsonAuthenticationFailureHandler implements AuthenticationFailureHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         String localizedMessage = messageSource.getMessage("error.loginFailed", new Object[]{exception.getMessage()}, LocaleContextHolder.getLocale());
-        String errorJson = objectMapper.writeValueAsString(new ApiResponse(false, localizedMessage));
+        String errorJson = objectMapper.writeValueAsString(new ApiResponseDTO(false, localizedMessage));
         logger.debug("Attempting to write error JSON to response from JsonAuthenticationFailureHandler: {}", errorJson);
         response.getWriter().write(errorJson);
         response.getWriter().flush();

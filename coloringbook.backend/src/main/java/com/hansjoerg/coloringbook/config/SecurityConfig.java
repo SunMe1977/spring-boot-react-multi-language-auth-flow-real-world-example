@@ -1,7 +1,7 @@
 package com.hansjoerg.coloringbook.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansjoerg.coloringbook.payload.AuthResponse;
+import com.hansjoerg.coloringbook.payload.AuthResponseDTO;
 import com.hansjoerg.coloringbook.security.*;
 import com.hansjoerg.coloringbook.security.filter.JsonUsernamePasswordAuthenticationFilter;
 import com.hansjoerg.coloringbook.security.filter.RateLimitingFilter;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -35,8 +34,6 @@ import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationC
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,11 +42,7 @@ import com.hansjoerg.coloringbook.security.oauth2.CustomAuthorizationRequestRepo
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -126,9 +119,9 @@ public class SecurityConfig {
         filter.setFilterProcessesUrl("/auth/login");
         filter.setAuthenticationSuccessHandler((request, response, authentication) -> {
             String token = tokenProvider.createToken(authentication);
-            AuthResponse authResponse = new AuthResponse(token);
+            AuthResponseDTO authResponseDTO = new AuthResponseDTO(token);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write(objectMapper.writeValueAsString(authResponse));
+            response.getWriter().write(objectMapper.writeValueAsString(authResponseDTO));
             response.getWriter().flush();
         });
         filter.setAuthenticationFailureHandler(jsonAuthenticationFailureHandler);

@@ -4,7 +4,7 @@ import com.hansjoerg.coloringbook.config.AppProperties;
 import com.hansjoerg.coloringbook.exception.BadRequestException;
 import com.hansjoerg.coloringbook.exception.ResourceNotFoundException;
 import com.hansjoerg.coloringbook.model.User;
-import com.hansjoerg.coloringbook.payload.ApiResponse;
+import com.hansjoerg.coloringbook.payload.ApiResponseDTO;
 import com.hansjoerg.coloringbook.payload.UpdateUserRequestDTO;
 import com.hansjoerg.coloringbook.repository.UserRepository;
 import com.hansjoerg.coloringbook.security.CurrentUser;
@@ -115,7 +115,7 @@ public class UserController {
             emailService.sendEmailVerificationEmail(user.getEmail(), verificationLink, currentLocale); // Pass locale
 
             String successMessage = messageSource.getMessage("email.verification.sent", null, currentLocale);
-            return ResponseEntity.ok(new ApiResponse(true, successMessage));
+            return ResponseEntity.ok(new ApiResponseDTO(true, successMessage));
         } else {
             String errorMessage = messageSource.getMessage("email.verification.noEmail", null, currentLocale);
             throw new BadRequestException(errorMessage);
@@ -143,6 +143,6 @@ public class UserController {
         userRepository.save(user);
 
         String successMessage = messageSource.getMessage("email.verification.success", null, currentLocale);
-        return ResponseEntity.ok(new ApiResponse(true, successMessage));
+        return ResponseEntity.ok(new ApiResponseDTO(true, successMessage));
     }
 }

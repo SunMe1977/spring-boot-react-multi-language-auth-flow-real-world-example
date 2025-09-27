@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hansjoerg.coloringbook.config.AppProperties;
 import com.hansjoerg.coloringbook.model.AuthProvider;
 import com.hansjoerg.coloringbook.model.User;
-import com.hansjoerg.coloringbook.payload.AuthResponse;
-import com.hansjoerg.coloringbook.payload.LoginRequest;
-import com.hansjoerg.coloringbook.payload.SignUpRequest;
+import com.hansjoerg.coloringbook.payload.AuthResponseDTO;
+import com.hansjoerg.coloringbook.payload.LoginRequestDTO;
+import com.hansjoerg.coloringbook.payload.SignUpRequestDTO;
 import com.hansjoerg.coloringbook.repository.UserRepository;
 import com.hansjoerg.coloringbook.security.TokenProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,19 +65,19 @@ public class AuthControllerTest {
     void testUserRegistration() throws Exception {
         String email = "test@example.com";
         String name = "Test User";
-        SignUpRequest signUpRequest = new SignUpRequest(name, email, "password123");
+        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO(name, email, "password123");
 
         MvcResult result = mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.accessToken").exists()) // Check for accessToken
                 .andExpect(jsonPath("$.tokenType").value("Bearer")) // Check for tokenType
                 .andReturn();
 
         String responseContent = result.getResponse().getContentAsString();
-        AuthResponse authResponse = objectMapper.readValue(responseContent, AuthResponse.class);
-        String token = authResponse.getAccessToken();
+        AuthResponseDTO authResponseDTO = objectMapper.readValue(responseContent, AuthResponseDTO.class);
+        String token = authResponseDTO.getAccessToken();
 
         assertNotNull(token, "Access token should not be null");
         assertTrue(tokenProvider.validateToken(token), "Generated token should be valid");
@@ -92,18 +92,18 @@ public class AuthControllerTest {
 
     @Test
     void testUserRegistration_DuplicateEmail() throws Exception {
-        SignUpRequest signUpRequest1 = new SignUpRequest("Test User 1", "duplicate@example.com", "password123");
+        SignUpRequestDTO signUpRequestDTO1 = new SignUpRequestDTO("Test User 1", "duplicate@example.com", "password123");
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest1)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO1)))
                 .andExpect(status().isCreated());
 
-        SignUpRequest signUpRequest2 = new SignUpRequest("Test User 2", "duplicate@example.com", "password456");
+        SignUpRequestDTO signUpRequestDTO2 = new SignUpRequestDTO("Test User 2", "duplicate@example.com", "password456");
         String expectedErrorMessage = messageSource.getMessage("error.emailAlreadyInUse", null, Locale.ENGLISH); // Use Locale.ENGLISH
 
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest2)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO2)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.message").value(expectedErrorMessage));
@@ -112,25 +112,25 @@ public class AuthControllerTest {
     @Test
     void testUserLogin_Success() throws Exception {
         // First, register a user
-        SignUpRequest signUpRequest = new SignUpRequest("Login User", "login@example.com", "loginpassword");
+        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO("Login User", "login@example.com", "loginpassword");
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO)))
                 .andExpect(status().isCreated());
 
         // Now, attempt to log in
-        LoginRequest loginRequest = new LoginRequest("login@example.com", "loginpassword");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("login@example.com", "loginpassword");
         MvcResult result = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andReturn();
 
         String responseContent = result.getResponse().getContentAsString();
-        AuthResponse authResponse = objectMapper.readValue(responseContent, AuthResponse.class);
-        String token = authResponse.getAccessToken();
+        AuthResponseDTO authResponseDTO = objectMapper.readValue(responseContent, AuthResponseDTO.class);
+        String token = authResponseDTO.getAccessToken();
 
         assertNotNull(token);
         assertTrue(tokenProvider.validateToken(token));
@@ -138,18 +138,18 @@ public class AuthControllerTest {
 
     @Test
     void testUserLogin_Failure_WrongPassword() throws Exception {
-        SignUpRequest signUpRequest = new SignUpRequest("Wrong Pass User", "wrongpass@example.com", "correctpassword");
+        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO("Wrong Pass User", "wrongpass@example.com", "correctpassword");
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO)))
                 .andExpect(status().isCreated());
 
-        LoginRequest loginRequest = new LoginRequest("wrongpass@example.com", "incorrectpassword");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("wrongpass@example.com", "incorrectpassword");
         String expectedErrorMessage = messageSource.getMessage("error.loginFailed", new Object[]{"Bad credentials"}, Locale.ENGLISH); // Use Locale.ENGLISH
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.message").value(expectedErrorMessage));
@@ -157,12 +157,12 @@ public class AuthControllerTest {
 
     @Test
     void testUserLogin_Failure_NonExistentUser() throws Exception {
-        LoginRequest loginRequest = new LoginRequest("nonexistent@example.com", "anypassword");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("nonexistent@example.com", "anypassword");
         String expectedErrorMessage = messageSource.getMessage("error.loginFailed", new Object[]{"Bad credentials"}, Locale.ENGLISH); // Use Locale.ENGLISH
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.message").value(expectedErrorMessage));

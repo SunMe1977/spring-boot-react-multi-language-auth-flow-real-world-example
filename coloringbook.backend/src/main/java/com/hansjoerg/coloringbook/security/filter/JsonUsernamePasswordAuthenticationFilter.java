@@ -1,8 +1,7 @@
 package com.hansjoerg.coloringbook.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansjoerg.coloringbook.payload.LoginRequest; // Correct import
-import jakarta.servlet.FilterChain;
+import com.hansjoerg.coloringbook.payload.LoginRequestDTO; // Correct import
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,11 +45,11 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
         }
 
         try {
-            // Use the LoginRequest DTO from the payload package
-            LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
-            logger.debug("Parsed login request for email: {}", loginRequest.getEmail());
+            // Use the LoginRequestDTO DTO from the payload package
+            LoginRequestDTO loginRequestDTO = objectMapper.readValue(request.getInputStream(), LoginRequestDTO.class);
+            logger.debug("Parsed login request for email: {}", loginRequestDTO.getEmail());
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-                    loginRequest.getEmail(), loginRequest.getPassword());
+                    loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
             setDetails(request, authRequest);
             return this.getAuthenticationManager().authenticate(authRequest);
         } catch (IOException e) {

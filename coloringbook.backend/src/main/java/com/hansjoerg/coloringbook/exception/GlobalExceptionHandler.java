@@ -1,6 +1,6 @@
 package com.hansjoerg.coloringbook.exception;
 
-import com.hansjoerg.coloringbook.payload.ApiResponse;
+import com.hansjoerg.coloringbook.payload.ApiResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -20,21 +20,21 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiResponse> handleBadRequestException(BadRequestException ex) {
+    public ResponseEntity<ApiResponseDTO> handleBadRequestException(BadRequestException ex) {
         String localizedMessage = messageSource.getMessage(ex.getMessageKey(), ex.getArgs(), LocaleContextHolder.getLocale());
-        return new ResponseEntity<>(new ApiResponse(false, localizedMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponseDTO(false, localizedMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<ApiResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
         String localizedMessage = messageSource.getMessage(ex.getMessageKey(), ex.getArgs(), LocaleContextHolder.getLocale());
-        return new ResponseEntity<>(new ApiResponse(false, localizedMessage), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponseDTO(false, localizedMessage), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(OAuth2AuthenticationProcessingException.class)
-    public ResponseEntity<ApiResponse> handleOAuth2AuthenticationProcessingException(OAuth2AuthenticationProcessingException ex) {
+    public ResponseEntity<ApiResponseDTO> handleOAuth2AuthenticationProcessingException(OAuth2AuthenticationProcessingException ex) {
         String localizedMessage = messageSource.getMessage(ex.getMessageKey(), ex.getArgs(), LocaleContextHolder.getLocale());
-        return new ResponseEntity<>(new ApiResponse(false, localizedMessage), HttpStatus.BAD_REQUEST); // OAuth2 processing errors are often bad requests
+        return new ResponseEntity<>(new ApiResponseDTO(false, localizedMessage), HttpStatus.BAD_REQUEST); // OAuth2 processing errors are often bad requests
     }
 
     @ExceptionHandler(RuntimeException.class)

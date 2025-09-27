@@ -56,16 +56,16 @@ public class AuthController {
     private AppProperties appProperties; // Inject AppProperties for frontend URL
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequestDTO) {
+        if (userRepository.existsByEmail(signUpRequestDTO.getEmail())) {
             throw new BadRequestException("error.emailAlreadyInUse");
         }
 
         // Creating user's account
         User user = new User();
-        user.setName(signUpRequest.getName());
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setName(signUpRequestDTO.getName());
+        user.setEmail(signUpRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         user.setProvider(AuthProvider.local);
 
         User result = userRepository.save(user);
@@ -73,8 +73,8 @@ public class AuthController {
         // Authenticate the newly registered user and generate a token
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        signUpRequest.getEmail(),
-                        signUpRequest.getPassword()
+                        signUpRequestDTO.getEmail(),
+                        signUpRequestDTO.getPassword()
                 )
         );
 
@@ -86,9 +86,9 @@ public class AuthController {
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(result.getId()).toUri();
 
-        // Return AuthResponse with the token
+        // Return AuthResponseDTO with the token
         return ResponseEntity.created(location)
-                .body(new AuthResponse(token));
+                .body(new AuthResponseDTO(token));
     }
 
     @PostMapping("/forgot-password")
@@ -100,7 +100,7 @@ public class AuthController {
             // For security reasons, don't reveal if the email exists or not.
             // Just return a success message as if the email was sent.
             String successMessage = messageSource.getMessage("password.reset.emailSent", null, currentLocale);
-            return ResponseEntity.ok(new ApiResponse(true, successMessage));
+            return ResponseEntity.ok(new ApiResponseDTO(true, successMessage));
         }
 
         User user = userOptional.get();
@@ -120,7 +120,7 @@ public class AuthController {
         emailService.sendPasswordResetEmail(user.getEmail(), resetLink, currentLocale); // Pass locale
 
         String successMessage = messageSource.getMessage("password.reset.emailSent", null, currentLocale);
-        return ResponseEntity.ok(new ApiResponse(true, successMessage));
+        return ResponseEntity.ok(new ApiResponseDTO(true, successMessage));
     }
 
     @PostMapping("/reset-password")
@@ -148,6 +148,6 @@ public class AuthController {
         userRepository.save(user);
 
         String successMessage = messageSource.getMessage("password.reset.success", null, currentLocale);
-        return ResponseEntity.ok(new ApiResponse(true, successMessage));
+        return ResponseEntity.ok(new ApiResponseDTO(true, successMessage));
     }
 }
