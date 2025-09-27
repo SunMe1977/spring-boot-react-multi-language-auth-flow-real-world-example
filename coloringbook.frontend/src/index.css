@@ -1,0 +1,806 @@
+/* Base Styles */
+html, body { /* Added html to ensure full height */
+  height: 100%; /* Ensure html and body take full viewport height */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-sizing;
+  box-sizing: border-box;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+body {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media screen and (min-width: 1200px) {
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+/**
+  Link
+**/
+
+a {
+  color: #2098f3;
+  text-decoration: none;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #40a9ff;
+  text-decoration: none;
+}
+
+/**
+  Button
+**/
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 0 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 45px;
+  line-height: 45px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  position: relative;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: transparent;
+  border-color: #e8e8e8;
+  outline: none;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-lg {
+  padding: 0 30px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #2098f3;
+  border-color: #2098f3;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #52c41a;
+  border-color: #52c41a;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active {
+  background-color: #52c41a;
+  border-color: #52c41a;
+}
+
+.btn-link {
+  border: none;
+  height: 34px;
+  padding: 0 15px;
+}
+
+.btn-link:hover {
+  background-color: rgba(158, 158, 158, 0.2);
+}
+
+/**
+  Form
+**/
+
+.form-item {
+  margin-bottom: 18px;
+}
+
+.form-item .btn {
+  cursor: pointer;
+}
+
+.form-item label {
+  font-size: 0.85em;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 5px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.form-control {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: inline-block;
+  padding: 4px 11px;
+  width: 100%;
+  height: 45px;
+  font-size: 0.87em;
+  line-height: 45px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  transition: all 0.3s;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.form-control:hover,
+.form-control:focus,
+.form-control:active {
+  border-color: #40a9ff;
+  outline: 0;
+  border-right-width: 1px !important;
+}
+
+.form-control:focus,
+.form-control:active {
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.form-control.invalid {
+  border-color: #f5222d;
+}
+
+.form-control.invalid:focus,
+.form-control.invalid:active {
+  box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2);
+}
+
+.form-control[disabled],
+fieldset[disabled] .form-control {
+  cursor: not-allowed;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: #f6f8fa;
+  opacity: 1;
+}
+
+.form-label {
+  margin-bottom: 10px;
+}
+
+/* Password input container for positioning the toggle button */
+.password-input-container {
+  position: relative;
+}
+
+/* Adjust padding for password input to make space for the toggle button */
+.password-input-container .form-control {
+  padding-right: 60px; /* Make space for the button */
+}
+
+/* Style for the password toggle button */
+.password-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8em;
+  text-decoration: none;
+  color: #6c757d; /* Muted color */
+}
+
+.password-toggle-btn:hover {
+  color: #333; /* Slightly darker on hover */
+  text-decoration: underline;
+}
+
+
+/**
+  Or separator
+**/
+
+.or-separator {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  position: relative;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 1em;
+  text-align: center; /* Center the line */
+}
+
+.or-text {
+  position: absolute;
+  left: 50%; /* Center horizontally */
+  top: 0;
+  transform: translateX(-50%); /* Adjust for element's own width */
+  background: #fff;
+  padding: 10px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* Navbar styles - mimicking Bootstrap 3 default navbar */
+.navbar {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+
+.navbar-fixed-top {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  top: 0;
+  border-width: 0 0 1px;
+}
+
+.navbar-default {
+  background-color: #f8f8f8; /* Light grey background */
+  border-color: #e7e7e7;
+}
+
+/* Default styles for navbar-toggle (hidden on large screens) */
+.navbar-toggle {
+  display: none; /* Hidden by default on large screens */
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Removed .navbar-toggle .icon-bar styles as they are no longer used */
+
+.navbar-header {
+  float: left;
+  padding: 0 15px; /* Adjust padding */
+  height: 50px; /* Match min-height of navbar */
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Vertically center items */
+}
+
+.navbar-brand {
+  float: left;
+  height: 50px;
+  padding: 15px 0; /* Adjust padding to align with text */
+  font-size: 18px;
+  line-height: 20px;
+  color: #2098f3; /* Changed to blue */
+  display: flex; /* Use flexbox for vertical alignment of logo and text */
+  align-items: center; /* Vertically center items */
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: #40a9ff; /* Changed to blue hover */
+  background-color: transparent;
+}
+
+.navbar-brand img {
+  height: 30px; /* Make logo bigger */
+  display: inline-block;
+  margin-top: 0; /* Reset margin-top */
+  margin-right: 10px; /* Add some space to the right of the logo */
+}
+
+/* Default state for navbar-collapse (visible on large screens) */
+.navbar-collapse {
+  overflow-x: visible;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-top: 1px solid transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-overflow-scrolling: touch;
+  
+  /* Styles for large screens */
+  display: flex; 
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px; 
+}
+
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none; /* Remove bullets */
+}
+
+.nav > li {
+  position: relative;
+  display: block;
+}
+
+.navbar-nav {
+  margin: 0; /* Reset margin */
+  display: flex; /* Use flexbox for horizontal alignment */
+  align-items: center; /* Vertically center items */
+}
+
+/* Add horizontal spacing for normal screens */
+.navbar-nav > li:not(:first-child) {
+  margin-left: 15px; /* Space between nav items */
+}
+
+.navbar-nav > li > a {
+  color: #2098f3; /* Changed to blue */
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #40a9ff; /* Changed to blue hover */
+  background-color: transparent;
+}
+
+/* REMOVED conflicting floats for navbar-right and its children */
+.navbar-right {
+  /* Removed float: right */
+  margin-right: -15px; /* Adjust margin */
+}
+
+.navbar-right > li {
+  /* No float here, handled by flexbox on .navbar-nav */
+}
+
+/* Clearfix for navbar */
+.navbar:before,
+.navbar:after,
+.container:before,
+.container:after {
+  content: " ";
+  display: table;
+}
+.navbar:after,
+.container:after {
+  clear: both;
+}
+
+/* New styles for language switcher item */
+.navbar-nav .language-switcher-item {
+  display: flex; /* Use flex to align content inside li */
+  align-items: center; /* Vertically center the select */
+  padding: 0; /* Reset padding, handled by parent li */
+}
+
+.navbar-nav .language-switcher-item .form-group {
+  margin-bottom: 0; /* Remove bottom margin from form-group */
+  display: inline-block; /* Keep it inline-block for select */
+  vertical-align: middle; /* Align with other nav items */
+}
+
+.navbar-nav .language-switcher-item .form-control {
+  height: 34px; /* Standard height for form controls in navbar */
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143; /* Match Bootstrap default */
+}
+
+/* New styles for authentication links group */
+.navbar-nav .auth-links-group {
+  display: flex; /* Use flexbox to put links on the same line */
+  align-items: center; /* Vertically center links */
+  padding: 0; /* Reset padding, handled by parent li */
+}
+
+.navbar-nav .auth-links-group .nav-link-item {
+  /* Inherits styles from .navbar-nav > li > a */
+  padding: 15px 0; /* Match existing nav link padding */
+  display: block; /* Make it block within the flex container for padding */
+  color: #2098f3; /* Match existing nav link color */
+}
+
+.navbar-nav .auth-links-group .nav-link-item:not(:last-child) {
+  margin-right: 15px; /* Add space between login and signup links */
+}
+
+
+/* New styles for authentication forms */
+.auth-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 40px; /* Generous padding */
+  margin-top: 50px; /* Space from the header */
+}
+
+.auth-card-title {
+  font-size: 2em; /* Larger title */
+  font-weight: 600; /* Bolder */
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Social Login Button Enhancements */
+.social-login a.btn {
+  display: flex; /* Use flexbox for internal alignment */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Horizontally center content */
+  text-align: center; /* Ensure text is centered */
+  padding: 0 20px; /* Adjust padding as needed */
+  height: 50px; /* Slightly taller buttons for better visual */
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.social-login a.btn img {
+  height: 24px; /* Consistent logo size */
+  margin-right: 10px; /* Space between logo and text */
+  float: none; /* Remove float */
+  margin-top: 0; /* Reset margin-top */
+}
+
+/* Footer Styles */
+.main-footer {
+  background-color: #f8f9fa; /* Light background for the footer */
+  padding: 20px 0;
+  border-top: 1px solid #e9ecef;
+  color: #6c757d;
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 40px; /* Space above the footer */
+}
+
+.main-footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #2098f3;
+  text-decoration: none;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+.footer-links a:hover {
+  color: #40a9ff;
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.footer-copyright strong {
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.footer-copyright a {
+  color: #6c757d; /* Darker color for copyright links */
+  text-decoration: none;
+}
+
+.footer-copyright a:hover {
+  color: #40a9ff;
+  text-decoration: underline;
+}
+
+/* Layout Styles */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex-grow: 1; /* Allows content to take up available space */
+  padding-top: 70px; /* Add padding to push content below the fixed header */
+}
+
+/* Utilities */
+.or-separator {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  position: relative;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 1em;
+  text-align: center; /* Center the line */
+}
+
+.or-text {
+  position: absolute;
+  left: 50%; /* Center horizontally */
+  top: 0;
+  transform: translateX(-50%); /* Adjust for element's own width */
+  background: #fff;
+  padding: 10px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.d-none.d-sm-inline.float-right {
+  margin-left: 10px;
+}
+
+/* App.css content (minimal, can be integrated into base or layout) */
+.s-alert-box {
+  min-width: 250px;
+}
+
+.s-alert-close::before,
+.s-alert-close::after {
+  width: 2px;
+}
+
+/* New class for auth form bottom links */
+.auth-link-block {
+  display: block;
+  margin-bottom: 10px; /* Space between each link block */
+}
+
+.auth-link-block:last-child {
+  margin-bottom: 0; /* No bottom margin for the last one */
+}
+
+
+/* Media query for small screens (e.g., mobile phones) */
+@media (max-width: 767px) {
+  .app-content {
+    padding-top: 60px; /* Adjusted to clear the fixed header when menu is closed */
+  }
+
+  .navbar-header {
+    width: 100%;
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Space between brand and toggle */
+    align-items: center; /* Vertically center items */
+    float: none !important; /* IMPORTANT: Override desktop float */
+    min-height: 50px; /* Ensure header has a minimum height */
+    position: relative;
+    padding-left: 15px; /* Ensure padding is consistent */
+    padding-right: 15px; /* Ensure padding is consistent */
+  }
+
+  .navbar-brand {
+    float: none !important; /* IMPORTANT: Override desktop float */
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0; /* Reset any auto margins */
+    padding-left: 0; /* Remove extra padding */
+    padding-right: 0; /* Remove extra padding */
+  }
+
+  .navbar-toggle {
+    display: flex !important; /* Ensure it's always visible on small screens */
+    align-items: center; /* Vertically center the icon */
+    justify-content: center; /* Horizontally center the icon */
+    background-color: transparent;
+    border: 1px solid #2098f3;
+    z-index: 1040;
+    padding: 0;
+    height: 34px;
+    width: 38px;
+    border-radius: 4px;
+    margin-left: auto !important; /* Pushes the toggle to the far right */
+    margin-right: 0; /* Ensure no right margin */
+    float: none !important; /* Crucial: Remove any lingering float */
+  }
+
+  .navbar-toggle:hover,
+  .navbar-toggle:focus {
+    background-color: rgba(32, 152, 243, 0.1);
+    border-color: #2098f3;
+  }
+
+  .navbar-collapse {
+    /* Revert to block flow, hidden by default */
+    position: static; /* Allow it to flow naturally */
+    top: auto;
+    left: auto;
+    width: 100%; /* Full width within its parent */
+    height: auto; /* Height adjusts to content */
+    max-height: none;
+    overflow-y: visible; /* No internal scrolling */
+    background-color: #f8f8f8; /* Ensure background */
+    z-index: 1029; /* Keep z-index for stacking if needed */
+    transform: none; /* Remove transform for sliding */
+    transition: none; /* Remove transition for now */
+    padding-top: 0;
+    padding-bottom: 0; /* Reset padding */
+    border-top: 1px solid #e7e7e7; /* Add a border to separate from header */
+    box-shadow: none; /* Remove box-shadow */
+    display: none; /* Hidden by default */
+  }
+
+  .navbar-collapse.in {
+    display: block; /* Show as block when open, pushing content down */
+  }
+
+  .navbar-collapse.collapse {
+    display: none; /* Explicitly hide when collapsed */
+  }
+
+  /* Adjustments for navbar-nav within the menu */
+  .navbar-nav {
+    width: 100%; /* Full width within the collapsed area */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Use flex for column direction */
+    flex-direction: column; /* Stack items vertically */
+    /* Removed align-items: flex-start; as padding on li will handle alignment */
+  }
+
+  .navbar-nav > li {
+    width: 100%; /* Full width list item */
+    padding: 10px 15px; /* Consistent padding for each menu item */
+    margin: 0; /* Ensure no extra margin */
+    border-bottom: 1px solid #eee; /* Separator for each item */
+    text-align: left; /* Align text to the left */
+  }
+
+  .navbar-nav > li:last-child {
+    border-bottom: none; /* No border on the last item */
+  }
+
+  .navbar-nav > li > a {
+    display: block; /* Make links fill the list item width */
+    padding: 0; /* Reset padding on anchor, it's on li now */
+    margin: 0; /* Ensure no extra margin */
+  }
+
+  /* Adjustments for LanguageSwitcher within navbar */
+  .navbar-nav .language-switcher-item {
+    width: 100%; /* Full width for form-group */
+    padding: 10px 15px; /* Consistent padding for the form group */
+    margin: 0; /* Reset margins */
+    border-bottom: 1px solid #eee; /* Separator for language switcher */
+    text-align: left;
+    display: flex !important; /* Override inline-block from LanguageSwitcher component */
+    vertical-align: top !important; /* Reset vertical-align */
+    justify-content: flex-start; /* Align content to start */
+  }
+
+  .navbar-nav .language-switcher-item:last-child {
+    border-bottom: none; /* No border on the last form group */
+  }
+
+  .navbar-nav .language-switcher-item .form-control { /* This is the select element */
+    width: 100%; /* Make it full width within its container */
+    display: block;
+    margin: 0; /* Ensure no extra margin on the select itself */
+  }
+
+  /* Mobile adjustments for auth links group */
+  .navbar-nav .auth-links-group {
+    flex-direction: column; /* Stack links vertically in mobile menu */
+    align-items: flex-start; /* Align to the left */
+    width: 100%;
+    padding: 0; /* Reset padding, children will have it */
+    margin-left: 0; /* Reset margin */
+    border-bottom: 1px solid #eee; /* Separator for the group */
+  }
+
+  .navbar-nav .auth-links-group .nav-link-item {
+    width: 100%; /* Full width for each link */
+    padding: 10px 15px; /* Consistent padding for each link */
+    margin-right: 0; /* Remove horizontal margin */
+    border-bottom: none; /* No individual border, group has one */
+  }
+
+  .navbar-nav .auth-links-group .nav-link-item:not(:last-child) {
+    margin-bottom: 5px; /* Add vertical space between stacked links */
+  }
+
+  .auth-card {
+    margin-top: 0;
+  }
+
+  .navbar-right {
+    float: none !important; /* Explicitly remove float for mobile */
+    margin-right: 0 !important;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .footer-links a {
+    white-space: normal;
+    margin: 5px 0;
+    padding: 5px 10px;
+    display: block;
+    width: fit-content;
+  }
+
+  .footer-copyright {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-copyright strong {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .footer-copyright a {
+    color: #6c757d; /* Darker color for copyright links */
+    text-decoration: none;
+  }
+
+  .footer-copyright a:hover {
+    color: #40a9ff;
+    text-decoration: underline;
+  }
+
+  .d-none.d-sm-inline.float-right {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}

@@ -1,0 +1,107 @@
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    com.hansjoerg.coloringbook: DEBUG
+
+spring:
+  main:
+    lazy-initialization: true
+    banner-mode: off
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coloringbook?reWriteBatchedInserts=true&prepareThreshold=0
+    username: hansjoerg
+    password: secretpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 686279034351-8h6igi1ef7ja11di7a2f1v8o20ip94lh.apps.googleusercontent.com
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            redirectUri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 749593494534970
+            clientSecret: ${FACEBOOK_SECRET}
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            client-id: Iv23liQrSJK3rUcozwmM
+            client-secret: ${GIT_SECRET}
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            client-name: GitHub
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: login
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+  liquibase: # Liquibase configuration
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml # Path to your master changelog
+
+  mail: # New mail configuration
+    host: smtp.gmail.com # Replace with your SMTP host
+    port: 587 # Replace with your SMTP port (e.g., 587 for TLS, 465 for SSL)
+    username: hansjoerghofer692@gmail.com # Replace with your email
+    password: ${MAIL_PASSWORD} # Replace with your email password
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.trust: smtp.gmail.com # Replace with your SMTP host if needed
+
+server: # Added server configuration for compression
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,text/javascript,application/javascript
+    min-response-size: 1024 # Minimum size in bytes to compress
+
+app:
+  swagger:
+    password: ${SWAGGER_PWD}
+  frontend:
+    baseUrl: ${FRONTEND_URL}
+  auth:
+    tokenSecret: ${TOKEN_SECRET}
+    tokenExpirationMsec: 864000000
+  cors:
+    allowedOrigins: ${FRONTEND_URL},http://localhost:8080
+  oauth2:
+    authorizedRedirectUris:
+      - ${FRONTEND_URL}/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+  rate-limit:
+    login-rps: 5.0 # 5 requests per second for login
+    signup-rps: 2.0 # 2 requests per second for signup
+    cache-expiry-minutes: 10 # Cache IP buckets for 10 minutes
+    max-cache-size: 1000 # Max 1000 IP addresses to track
+  password-reset: # New password reset properties
+    token-expiration-minutes: 60 # Token valid for 60 minutes
+    from-email: hansjoerghofer692@gmail.com # Email address to send reset emails from
+  email-verification: # New email verification properties
+    token-expiration-minutes: 30 # Token valid for 30 minutes
+    from-email: hansjoerghofer692@gmail.com # Email address to send verification emails from

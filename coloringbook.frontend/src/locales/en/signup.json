@@ -1,0 +1,16 @@
+{
+    "title": "Sign up for AI SelfPub ColoringBook Studio",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "success": "You've successfully registered! Please log in.",
+    "error": "Signup failed. Please try again.",
+    "already": "Already have an account?",
+    "fetch_profile_error_after_signup": "Failed to fetch user profile after signup.",
+    "no_access_token_error": "Signup failed: No access token received.",
+    "passwords_do_not_match": "Passwords do not match!",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "show": "Show",
+    "hide": "Hide"
+}

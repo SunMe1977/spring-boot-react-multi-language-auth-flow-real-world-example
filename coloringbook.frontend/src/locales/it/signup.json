@@ -1,0 +1,16 @@
+{
+    "title": "Iscriviti a AI SelfPub ColoringBook Studio",
+    "name": "Nome",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Conferma Password",
+    "success": "Ti sei registrato con successo! Effettua il login.",
+    "error": "Registrazione fallita. Riprova.",
+    "already": "Hai già un account?",
+    "fetch_profile_error_after_signup": "Impossibile recuperare il profilo utente dopo la registrazione.",
+    "no_access_token_error": "Registrazione fallita: Nessun token di accesso ricevuto.",
+    "passwords_do_not_match": "Le password non corrispondono!",
+    "password_too_short": "La password deve essere lunga almeno 6 caratteri.",
+    "show": "Mostra",
+    "hide": "Nascondi"
+}

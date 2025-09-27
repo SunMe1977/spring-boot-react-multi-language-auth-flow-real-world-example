@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: hansjoerg
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: email
+            newDataType: VARCHAR(255)
+            remarks: "Allow email to be nullable"
+        - setColumnRemarks:
+            tableName: users
+            columnName: email
+            remarks: "User's email address, can be null for OAuth2 users without email consent"
+        - dropNotNullConstraint:
+            tableName: users
+            columnName: email
+            columnDataType: VARCHAR(255)

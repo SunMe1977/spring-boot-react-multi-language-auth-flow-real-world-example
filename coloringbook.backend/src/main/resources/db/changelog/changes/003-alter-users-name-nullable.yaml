@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: hansjoerg
+      changes:
+        - dropNotNullConstraint:
+            tableName: users
+            columnName: name
+            columnDataType: VARCHAR(255)
+        - setColumnRemarks:
+            tableName: users
+            columnName: name
+            remarks: "User's display name, can be null for OAuth2 users without name consent"
